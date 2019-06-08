@@ -2,7 +2,7 @@
 
 #include <ESP8266WebServer.h>                  // for the webserver
 #include <DNSServer.h>                         // DNS Server for Access Point Wise
-#include "SSDPBoth.h"                          // Windows discovering devices
+#include <SSDPBoth.h>                          // Windows discovering devices
 
 #define SKETCH_VERSION "1.0.0"                 // Current version
 #define HOSTNAME       "SSDPBoth"              // Current hostname
