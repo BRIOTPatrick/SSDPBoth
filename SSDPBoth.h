@@ -78,6 +78,20 @@ typedef enum {
   AP_TOGGLE
 } ssdp_manage_t;
 
+typedef enum {
+  SET_DEVICETYPE,
+  SET_UUID,
+  SET_NAME,
+  SET_URL,
+  SET_SCHEMAURL,
+  SET_SERIALNUMBER,
+  SET_MODELNAME,
+  SET_MODELNUMBER,
+  SET_MODELURL,
+  SET_MANUFACTURER,
+  SET_MANUFACTURERURL
+} ssdp_setparams_t;
+
 
 class UdpContext;
 
@@ -90,33 +104,8 @@ class SSDPBoth{
     void update();
     void schema(WiFiClient client);
     int  manage(ssdp_manage_t manage);
-
-    void setDeviceType(const String& deviceType) { setDeviceType(deviceType.c_str()); }
-    void setDeviceType(const char *deviceType);
-	
-    /*To define a custom UUID, you must call the method before begin(). Otherwise an automatic UUID based on CHIPID will be generated.*/
-    void setUUID(const String& uuid)	{ setUUID(uuid.c_str()); }
-    void setUUID(const char *uuid);
-
-    void setName(const String& name) { setName(name.c_str()); }
-    void setName(const char *name);
-    void setURL(const String& url) { setURL(url.c_str()); }
-    void setURL(const char *url);
-    void setSchemaURL(const String& url) { setSchemaURL(url.c_str()); }
-    void setSchemaURL(const char *url);
-    void setSerialNumber(const String& serialNumber) { setSerialNumber(serialNumber.c_str()); }
-    void setSerialNumber(const char *serialNumber);
+    void setParam(ssdp_setparams_t param, const char *paramchar, ...);
     void setSerialNumber(const uint32_t serialNumber);
-    void setModelName(const String& name) { setModelName(name.c_str()); }
-    void setModelName(const char *name);
-    void setModelNumber(const String& num) { setModelNumber(num.c_str()); }
-    void setModelNumber(const char *num);
-    void setModelURL(const String& url) { setModelURL(url.c_str()); }
-    void setModelURL(const char *url);
-    void setManufacturer(const String& name) { setManufacturer(name.c_str()); }
-    void setManufacturer(const char *name);
-    void setManufacturerURL(const String& url) { setManufacturerURL(url.c_str()); }
-    void setManufacturerURL(const char *url);
     void setHTTPPort(uint16_t port);
     void setTTL(uint8_t ttl);
 
