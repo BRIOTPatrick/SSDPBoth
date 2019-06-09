@@ -2,9 +2,9 @@
 
 #include <ESP8266WebServer.h>                  // for the webserver
 #include <DNSServer.h>                         // DNS Server for Access Point Wise
-#include <SSDPBoth.h>                          // Windows discovering devices
+#include "SSDPBoth.h"                          // Windows discovering devices
 
-#define SKETCH_VERSION "1.0.0"                 // Current version
+#define SKETCH_VERSION "1.1.0"                 // Current version
 #define HOSTNAME       "SSDPBoth"              // Current hostname
 #define DNS_PORT       53                      // Capture DNS requests port
 #define WEB_PORT       80                      // HTTP and SSDP port
@@ -16,18 +16,14 @@ DNSServer              dnsServer;              // Create the DNS object
 ESP8266WebServer       webServer(WEB_PORT);    // HTTP server
 
 void SSDPconfig(char* SSDPName) {
-  char chaine[25];
-  SSDP.setName(SSDPName);
-  SSDP.setManufacturer(HOSTNAME);
-  SSDP.setManufacturerURL("https://github.com/BRIOTPatrick/SSDPBoth");
-  sprintf(chaine, "ESP8266-01 - %dKb", ESP.getFlashChipRealSize() / 1024);
-  SSDP.setModelName(chaine);
-  sprintf(chaine, "http://%s.local", SSDPName);
-  SSDP.setModelURL(chaine);
-  sprintf(chaine, "%06X", ESP.getFlashChipId());
-  SSDP.setModelNumber(chaine);
-  SSDP.setURL("/");
-  SSDP.setSerialNumber(HOSTNAME" "SKETCH_VERSION);
+  SSDP.setParam(SET_URL, "/");
+  SSDP.setParam(SET_NAME, SSDPName);
+  SSDP.setParam(SET_MANUFACTURER, HOSTNAME);
+  SSDP.setParam(SET_MANUFACTURERURL, "https://github.com/BRIOTPatrick/SSDPBoth");
+  SSDP.setParam(SET_MODELNAME, "ESP8266-01 - %dKb", ESP.getFlashChipRealSize() / 1024);
+  SSDP.setParam(SET_MODELURL, "http://%s.local", SSDPName);
+  SSDP.setParam(SET_MODELNUMBER, "%06X", ESP.getFlashChipId());
+  SSDP.setParam(SET_SERIALNUMBER, HOSTNAME" "SKETCH_VERSION);
   SSDP.begin();
 }
 
