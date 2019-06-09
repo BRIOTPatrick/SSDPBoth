@@ -212,18 +212,26 @@ int SSDPBoth::manage(ssdp_manage_t manage) {
   return -1;
 }
 
-void SSDPBoth::setSchemaURL(const char *url)                { strlcpy(_schemaURL, url, sizeof(_schemaURL)); }
-void SSDPBoth::setDeviceType(const char *deviceType)        { strlcpy(_deviceType, deviceType, sizeof(_deviceType)); }
-void SSDPBoth::setUUID(const char *uuid)                    { strlcpy(_uuid, uuid, sizeof(_uuid)); }
-void SSDPBoth::setName(const char *name)                    { strlcpy(_friendlyName, name, sizeof(_friendlyName)); }
-void SSDPBoth::setURL(const char *url)                      { strlcpy(_presentationURL, url, sizeof(_presentationURL)); }
-void SSDPBoth::setSerialNumber(const char *serialNumber)    { strlcpy(_serialNumber, serialNumber, sizeof(_serialNumber)); }
+void SSDPBoth::setParam(ssdp_setparams_t param, const char *paramchar, ...) {
+  va_list args;
+  va_start(args, paramchar);
+  switch (param) {
+  case SET_DEVICETYPE:        vsnprintf(_deviceType, sizeof(_deviceType)-1, paramchar, args); break;
+  case SET_UUID:              vsnprintf(_uuid, sizeof(_uuid)-1, paramchar, args); break;
+  case SET_NAME:              vsnprintf(_friendlyName, sizeof(_friendlyName)-1, paramchar, args); break;
+  case SET_URL:               vsnprintf(_presentationURL, sizeof(_presentationURL)-1, paramchar, args); break;
+  case SET_SCHEMAURL:         vsnprintf(_schemaURL, sizeof(_schemaURL)-1, paramchar, args); break;
+  case SET_SERIALNUMBER:      vsnprintf(_serialNumber, sizeof(_serialNumber)-1, paramchar, args); break;
+  case SET_MODELNAME:         vsnprintf(_modelName, sizeof(_modelName)-1, paramchar, args); break;
+  case SET_MODELNUMBER:       vsnprintf(_modelNumber, sizeof(_modelNumber)-1, paramchar, args); break;
+  case SET_MODELURL:          vsnprintf(_modelURL, sizeof(_modelURL)-1, paramchar, args); break;
+  case SET_MANUFACTURER:      vsnprintf(_manufacturer, sizeof(_manufacturer)-1, paramchar, args); break;
+  case SET_MANUFACTURERURL:   vsnprintf(_manufacturerURL, sizeof(_manufacturerURL)-1, paramchar, args); break;
+  }
+  va_end(args);
+}
+
 void SSDPBoth::setSerialNumber(const uint32_t serialNumber) { snprintf(_serialNumber, sizeof(uint32_t) * 2 + 1, "%08X", serialNumber); }
-void SSDPBoth::setModelName(const char *name)               { strlcpy(_modelName, name, sizeof(_modelName)); }
-void SSDPBoth::setModelNumber(const char *num)              { strlcpy(_modelNumber, num, sizeof(_modelNumber)); }
-void SSDPBoth::setModelURL(const char *url)                 { strlcpy(_modelURL, url, sizeof(_modelURL)); }
-void SSDPBoth::setManufacturer(const char *name)            { strlcpy(_manufacturer, name, sizeof(_manufacturer)); }
-void SSDPBoth::setManufacturerURL(const char *url)          { strlcpy(_manufacturerURL, url, sizeof(_manufacturerURL)); }
 void SSDPBoth::setHTTPPort(uint16_t port)                   { _port = port; }
 void SSDPBoth::setTTL(const uint8_t ttl)                    { _ttl = ttl; }
 
